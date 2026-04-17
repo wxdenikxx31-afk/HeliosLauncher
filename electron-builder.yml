@@ -46,6 +46,11 @@ linux:
   category: 'Game'
 
 
+publish:
+  - provider: 'github'
+    owner: 'wxdenikxx31-afk'
+    repo: 'HeliosLauncher'
+
 directories:
   buildResources: 'build'
   output: 'dist'
