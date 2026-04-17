@@ -1,0 +1,22 @@
+{
+    "articles": [
+        {
+            "link": "#",
+            "title": "🛠️ UniversalCraft Launcher v2.3.0 — Обновление!",
+            "date": "Apr 17, 2026, 6:00 PM",
+            "author": "UniversalCraft Team",
+            "content": "<h2 style=\"color: #ffffff; margin-bottom: 10px;\">Что нового в v2.3.0</h2><h3 style=\"color: #00d1a7; margin-top: 15px;\">🔄 Автообновление</h3><ul><li>Лаунчер теперь проверяет обновления при запуске автоматически</li><li>Полноэкранный оверлей с прогресс-баром загрузки обновления</li><li>Обновления публикуются через GitHub Releases</li></ul><h3 style=\"color: #00d1a7; margin-top: 15px;\">🖥️ Консоль и Dev Tools</h3><ul><li>Новая вкладка <b>«Консоль»</b> в настройках — логи лаунчера и игры в реальном времени</li><li>Фильтры по уровню: INFO, WARN, ERROR, DEBUG</li><li>Поиск по логам, экспорт в файл и копирование в буфер обмена</li><li>Карточки диагностики системы: ОС, CPU, RAM, GPU, Java, версия лаунчера</li><li>Перехват stdout/stderr процесса Minecraft в консоль лаунчера</li></ul><h3 style=\"color: #00d1a7; margin-top: 15px;\">⚡ Быстрый доступ</h3><ul><li>Кнопка консоли <b>( >_ )</b> в заголовке окна — рядом с кнопками управления</li><li>Горячая клавиша <b>Ctrl+Shift+C</b> — открывает консоль из любого экрана</li></ul><h3 style=\"color: #00d1a7; margin-top: 15px;\">🎨 Улучшения интерфейса</h3><ul><li>Все шрифты увеличены на 2px для лучшей читаемости</li></ul><h3 style=\"color: #00d1a7; margin-top: 15px;\">🔧 Прочее</h3><ul><li>IP сервера обновлён на <b>d10.aurorix.net:25257</b></li></ul><p style=\"margin-top: 15px; color: #888;\">Приятной игры! 🎉</p>",
+            "comments": "0 Comments",
+            "commentsLink": "#"
+        },
+        {
+            "link": "#",
+            "title": "🚀 UniversalCraft Launcher v1.0 — Первый релиз!",
+            "date": "Apr 17, 2026, 12:00 AM",
+            "author": "UniversalCraft Team",
+            "content": "<h2 style=\"color: #ffffff; margin-bottom: 10px;\">Добро пожаловать в UniversalCraft Launcher!</h2><p>Мы рады представить первую версию нашего лаунчера, созданного специально для сервера <b>UniversalCraft</b>.</p><h3 style=\"color: #00d1a7; margin-top: 15px;\">🎮 Выбор сборки</h3><ul><li><b>⚡ Full</b> — полная сборка с шейдерами и ресурспаками (148 модов). Для мощных ПК.</li><li><b>🍃 Lite</b> — облегчённая сборка без шейдеров (142 мода). Для слабых ПК.</li></ul><p>Переключайтесь между сборками в один клик через новый интерфейс выбора!</p><h3 style=\"color: #00d1a7; margin-top: 15px;\">🎨 Новый интерфейс</h3><ul><li>Двухколоночный дизайн выбора сборки — информация о сервере слева, карточки сборок справа</li><li>Карточки с описанием, тегами и иконками для каждой сборки</li><li>Подсветка выбранной сборки</li></ul><h3 style=\"color: #00d1a7; margin-top: 15px;\">🔧 Технические улучшения</h3><ul><li>Автоподключение к серверу UniversalCraft</li><li>Оффлайн режим — играй без лицензии Minecraft</li><li>Резервный пинг сервера для стабильного отображения статуса</li><li>Исправлена загрузка индекса дистрибуции (BOM-совместимость)</li></ul><h3 style=\"color: #00d1a7; margin-top: 15px;\">📦 Версия</h3><p>Minecraft: <b>1.20.1</b> | Forge | Лаунчер: <b>v1.0</b></p><p style=\"margin-top: 15px; color: #888;\">Приятной игры на UniversalCraft! 🎉</p>",
+            "comments": "0 Comments",
+            "commentsLink": "#"
+        }
+    ]
+}

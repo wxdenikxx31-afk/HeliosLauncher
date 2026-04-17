@@ -1065,15 +1065,37 @@ const LOCAL_NEWS = [
 ]
 
 /**
- * Load news information from the RSS feed specified in the
- * distribution index, with fallback to built-in patch notes.
+ * Load news information from a remote JSON feed hosted alongside
+ * the distribution, with fallback to RSS feed or built-in patch notes.
  */
 async function loadNews(){
 
     const distroData = await DistroAPI.getDistribution()
+
+    // Try loading news from JSON feed on GitHub Pages.
+    try {
+        const distroUrl = require('../distromanager').REMOTE_DISTRO_URL
+        const newsUrl = distroUrl.replace(/distribution\.json$/, 'news.json')
+        const response = await new Promise((resolve, reject) => {
+            $.ajax({
+                url: newsUrl + '?_=' + Date.now(),
+                dataType: 'json',
+                success: (data) => resolve(data),
+                error: (err) => reject(err),
+                timeout: 3000
+            })
+        })
+        if(response && Array.isArray(response.articles) && response.articles.length > 0) {
+            loggerLanding.debug('Loaded news from remote JSON feed.')
+            return { articles: response.articles }
+        }
+    } catch(e) {
+        loggerLanding.debug('Failed to load remote news JSON, trying RSS...')
+    }
+
+    // Try RSS feed from distribution config.
     const rssUrl = distroData.rawDistribution.rss
 
-    // If no RSS or placeholder, use local patch notes
     if(!rssUrl || rssUrl.includes('<') || rssUrl.includes('LINK')) {
         loggerLanding.debug('No valid RSS feed, using local news.')
         return { articles: LOCAL_NEWS }
