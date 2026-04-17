@@ -38,6 +38,9 @@ loginPasswordDisclaimer2 = "{appName} is not affiliated with Mojang AB."
 loginOptionsTitle = "Login Options"
 loginWithMicrosoft = "Login with Microsoft"
 loginWithMojang = "Login with Mojang"
+loginOffline = "Play Offline"
+offlineNicknamePlaceholder = "Enter your nickname"
+offlineLoginButton = "Enter the game"
 cancelButton = "Cancel"
 
 [ejs.overlay]
@@ -151,6 +154,9 @@ requiredValue = "* Required"
 [js.login.error.unknown]
 title = "Unknown Error During Login"
 desc = "An unknown error has occurred. Please see the console for details."
+
+[js.loginOptions]
+offlineNicknameError = "Only letters, numbers and _ (1-16 chars)"
 
 [js.landing.launch]
 pleaseWait = "Please wait.."

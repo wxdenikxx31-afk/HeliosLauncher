@@ -1041,6 +1041,71 @@ body, button {
     pointer-events: none;
 }
 
+/* Offline login form */
+#offlineLoginForm {
+    margin-top: 15px;
+    width: 16em;
+}
+
+#offlineLoginFormContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+    position: relative;
+}
+
+.offlineField {
+    font-family: 'Avenir Book';
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(126, 126, 126, 0.57);
+    border-radius: 3px;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.90);
+    font-weight: bold;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: 0.25s ease;
+}
+.offlineField:focus {
+    outline: none;
+    border-color: rgba(200, 200, 200, 0.7);
+}
+.offlineField:disabled {
+    color: rgba(255, 255, 255, 0.50);
+}
+.offlineField::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.50);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-align: center;
+    font-weight: bold;
+}
+.offlineField:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+.offlineErrorSpan {
+    font-family: 'Avenir Medium';
+    font-weight: bold;
+    font-size: 10px;
+    color: #ff1b0c;
+    opacity: 0;
+    transition: 0.25s ease;
+}
+
+#offlineLoginButton {
+    width: 100%;
+    justify-content: center;
+}
+#offlineLoginButton:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 
 /*******************************************************************************
  *                                                                             *
@@ -3623,7 +3688,13 @@ input:checked + .toggleSwitchSlider:before {
 * * */
 
 /* Server selection content container. */
-#serverSelectContent,
+#serverSelectContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+}
 #accountSelectContent {
     display: flex;
     flex-direction: column;
@@ -3636,21 +3707,134 @@ input:checked + .toggleSwitchSlider:before {
 #serverSelectHeader,
 #accountSelectHeader {
     font-family: 'Avenir Medium';
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     color: #fff;
     margin-bottom: 25px;
 }
 
-/* Wrapper div for the list of available servers. */
-#serverSelectList,
-#accountSelectList {
+/* Two-column layout for server + modpack selection */
+#serverSelectColumns {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+/* Column titles */
+.columnTitle {
+    font-family: 'Avenir Medium';
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+/* Server info column (left) */
+#serverInfoColumn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    max-height: 65%;
-    min-height: 40%;
+    min-width: 180px;
+}
+
+/* Server info card */
+#serverInfoCard {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.serverInfoAddress {
+    font-family: 'Avenir Medium';
+    font-size: 14px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.serverInfoVersion {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Modpack selection column (right) */
+#modpackSelectColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 220px;
+}
+
+/* Modpack card styles */
+.modpackCard {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 6px !important;
+    padding: 14px 18px !important;
+    width: 240px !important;
+    min-height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    transition: 0.25s ease;
+    cursor: pointer;
+    opacity: 0.6;
+    color: white;
+}
+.modpackCard[selected] {
+    opacity: 1.0;
+    border-color: rgba(100, 200, 100, 0.6) !important;
+    background: rgba(100, 200, 100, 0.1) !important;
+    cursor: default;
+}
+.modpackCard:hover,
+.modpackCard:focus {
+    outline: none;
+    opacity: 1.0;
+}
+
+.modpackIcon {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.modpackDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.modpackName {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.modpackTag {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.modpackInfo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Spacing between modpack cards */
+#serverSelectListScrollable > .modpackCard:not(:last-child) {
+    margin-bottom: 10px;
 }
 
 /* Scrollable div which lists the available servers. */

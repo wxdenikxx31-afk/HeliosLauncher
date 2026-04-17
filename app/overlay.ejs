@@ -1,15 +1,24 @@
 <div id="overlayContainer" style="display: none;">
     <div id="serverSelectContent" style="display: none;">
-        <span id="serverSelectHeader"><%- lang('overlay.serverSelectHeader') %></span>
-        <div id="serverSelectList">
-            <div id="serverSelectListScrollable">
-                <!-- Server listings populated here. -->
+        <span id="serverSelectHeader">Выбор сборки</span>
+        <div id="serverSelectColumns">
+            <div id="serverInfoColumn">
+                <div class="columnTitle">Сервер</div>
+                <div id="serverInfoCard">
+                    <!-- Server info populated dynamically -->
+                </div>
+            </div>
+            <div id="modpackSelectColumn">
+                <div class="columnTitle">Сборки</div>
+                <div id="serverSelectListScrollable">
+                    <!-- Modpack listings populated here -->
+                </div>
             </div>
         </div>
         <div id="serverSelectActions">
-            <button id="serverSelectConfirm" class="overlayKeybindEnter" type="submit"><%- lang('overlay.serverSelectConfirm') %></button>
+            <button id="serverSelectConfirm" class="overlayKeybindEnter" type="submit">Выбрать</button>
             <div id="serverSelectCancelWrapper">
-                <button id="serverSelectCancel" class="overlayKeybindEsc"><%- lang('overlay.serverSelectCancel') %></button>
+                <button id="serverSelectCancel" class="overlayKeybindEsc">Отмена</button>
             </div>
         </div>
     </div>

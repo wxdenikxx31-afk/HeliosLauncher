@@ -1075,7 +1075,7 @@ async function loadSelectedServerOnModsTab(){
 
     for(const el of document.getElementsByClassName('settingsSelServContent')) {
         el.innerHTML = `
-            <img class="serverListingImg" src="${serv.rawServer.icon}"/>
+            <img class="serverListingImg" src="${serv.rawServer.icon ?? ''}"/>
             <div class="serverListingDetails">
                 <span class="serverListingName">${serv.rawServer.name}</span>
                 <span class="serverListingDescription">${serv.rawServer.description}</span>

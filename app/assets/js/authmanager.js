@@ -276,6 +276,12 @@ exports.addMicrosoftAccount = async function(authCode) {
 exports.removeMojangAccount = async function(uuid){
     try {
         const authAcc = ConfigManager.getAuthAccount(uuid)
+        // Offline accounts don't need token invalidation.
+        if(authAcc.accessToken === 'offline') {
+            ConfigManager.removeAuthAccount(uuid)
+            ConfigManager.save()
+            return Promise.resolve()
+        }
         const response = await MojangRestAPI.invalidate(authAcc.accessToken, ConfigManager.getClientToken())
         if(response.responseStatus === RestResponseStatus.SUCCESS) {
             ConfigManager.removeAuthAccount(uuid)
@@ -416,10 +422,34 @@ async function validateSelectedMicrosoftAccount(){
 exports.validateSelected = async function(){
     const current = ConfigManager.getSelectedAccount()
 
+    if(current.accessToken === 'offline') {
+        return true
+    }
+
     if(current.type === 'microsoft') {
         return await validateSelectedMicrosoftAccount()
     } else {
         return await validateSelectedMojangAccount()
     }
-    
+}
+
+/**
+ * Add an offline (cracked) account.
+ * @param {string} username The desired username.
+ * @returns {Promise.<Object>} Resolves to the auth account object.
+ */
+exports.addOfflineAccount = function(username) {
+    const crypto = require('crypto')
+    const hash = crypto.createHash('md5').update('OfflinePlayer:' + username).digest('hex')
+    const uuid = [
+        hash.substring(0, 8),
+        hash.substring(8, 12),
+        hash.substring(12, 16),
+        hash.substring(16, 20),
+        hash.substring(20, 32)
+    ].join('-')
+
+    const ret = ConfigManager.addMojangAuthAccount(uuid, 'offline', username, username)
+    ConfigManager.save()
+    return ret
 }

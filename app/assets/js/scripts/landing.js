@@ -12,6 +12,7 @@ const {
     isDisplayableError,
     validateLocalFile
 }                             = require('helios-core/common')
+const ServerStatus            = require('./assets/js/serverstatus')
 const {
     FullRepair,
     DistributionIndexProcessor,
@@ -242,16 +243,29 @@ const refreshServerStatus = async (fade = false) => {
     let pLabel = Lang.queryJS('landing.serverStatus.server')
     let pVal = Lang.queryJS('landing.serverStatus.offline')
 
-    try {
-
-        const servStat = await getServerStatus(47, serv.hostname, serv.port)
-        console.log(servStat)
-        pLabel = Lang.queryJS('landing.serverStatus.players')
-        pVal = servStat.players.online + '/' + servStat.players.max
-
-    } catch (err) {
-        loggerLanding.warn('Unable to refresh server status, assuming offline.')
-        loggerLanding.debug(err)
+    if(serv == null) {
+        loggerLanding.warn('No server selected, cannot refresh status.')
+    } else {
+        try {
+            // Try helios-core modern SLP first
+            const servStat = await getServerStatus(763, serv.hostname, serv.port)
+            console.log(servStat)
+            pLabel = Lang.queryJS('landing.serverStatus.players')
+            pVal = servStat.players.online + '/' + servStat.players.max
+        } catch (err) {
+            loggerLanding.warn('Modern ping failed, trying legacy ping...')
+            try {
+                // Fallback to legacy server list ping (0xFE 0x01)
+                const legacyStat = await ServerStatus.getStatus(serv.hostname, serv.port)
+                if(legacyStat && legacyStat.online) {
+                    pLabel = Lang.queryJS('landing.serverStatus.players')
+                    pVal = legacyStat.onlinePlayers + '/' + legacyStat.maxPlayers
+                }
+            } catch (err2) {
+                loggerLanding.warn('Unable to refresh server status, assuming offline.')
+                loggerLanding.debug(err2)
+            }
+        }
     }
     if(fade){
         $('#server_status_wrapper').fadeOut(250, () => {
@@ -266,11 +280,9 @@ const refreshServerStatus = async (fade = false) => {
     
 }
 
-refreshMojangStatuses()
-// Server Status is refreshed in uibinder.js on distributionIndexDone.
+refreshServerStatus()
+// Mojang status removed — not needed for offline launcher.
 
-// Refresh statuses every hour. The status page itself refreshes every day so...
-let mojangStatusListener = setInterval(() => refreshMojangStatuses(true), 60*60*1000)
 // Set refresh rate to once every 5 minutes.
 let serverStatusListener = setInterval(() => refreshServerStatus(true), 300000)
 
@@ -953,20 +965,68 @@ function displayArticle(articleObject, index){
 }
 
 /**
+ * Built-in patch notes for the launcher.
+ * New entries should be added at the TOP of the array (newest first).
+ */
+const LOCAL_NEWS = [
+    {
+        link: '#',
+        title: '🚀 UniversalCraft Launcher v1.0 — Первый релиз!',
+        date: 'Apr 17, 2026, 12:00 AM',
+        author: 'UniversalCraft Team',
+        content: `
+            <h2 style="color: #ffffff; margin-bottom: 10px;">Добро пожаловать в UniversalCraft Launcher!</h2>
+            <p>Мы рады представить первую версию нашего лаунчера, созданного специально для сервера <b>UniversalCraft</b>.</p>
+
+            <h3 style="color: #00d1a7; margin-top: 15px;">🎮 Выбор сборки</h3>
+            <ul>
+                <li><b>⚡ Full</b> — полная сборка с шейдерами и ресурспаками (148 модов). Для мощных ПК.</li>
+                <li><b>🍃 Lite</b> — облегчённая сборка без шейдеров (142 мода). Для слабых ПК.</li>
+            </ul>
+            <p>Переключайтесь между сборками в один клик через новый интерфейс выбора!</p>
+
+            <h3 style="color: #00d1a7; margin-top: 15px;">🎨 Новый интерфейс</h3>
+            <ul>
+                <li>Двухколоночный дизайн выбора сборки — информация о сервере слева, карточки сборок справа</li>
+                <li>Карточки с описанием, тегами и иконками для каждой сборки</li>
+                <li>Подсветка выбранной сборки</li>
+            </ul>
+
+            <h3 style="color: #00d1a7; margin-top: 15px;">🔧 Технические улучшения</h3>
+            <ul>
+                <li>Автоподключение к серверу UniversalCraft</li>
+                <li>Оффлайн режим — играй без лицензии Minecraft</li>
+                <li>Резервный пинг сервера для стабильного отображения статуса</li>
+                <li>Исправлена загрузка индекса дистрибуции (BOM-совместимость)</li>
+            </ul>
+
+            <h3 style="color: #00d1a7; margin-top: 15px;">📦 Версия</h3>
+            <p>Minecraft: <b>1.20.1</b> | Forge | Лаунчер: <b>v1.0</b></p>
+            <p style="margin-top: 15px; color: #888;">Приятной игры на UniversalCraft! 🎉</p>
+        `,
+        comments: '0 Comments',
+        commentsLink: '#'
+    }
+]
+
+/**
  * Load news information from the RSS feed specified in the
- * distribution index.
+ * distribution index, with fallback to built-in patch notes.
  */
 async function loadNews(){
 
     const distroData = await DistroAPI.getDistribution()
-    if(!distroData.rawDistribution.rss) {
-        loggerLanding.debug('No RSS feed provided.')
-        return null
+    const rssUrl = distroData.rawDistribution.rss
+
+    // If no RSS or placeholder, use local patch notes
+    if(!rssUrl || rssUrl.includes('<') || rssUrl.includes('LINK')) {
+        loggerLanding.debug('No valid RSS feed, using local news.')
+        return { articles: LOCAL_NEWS }
     }
 
     const promise = new Promise((resolve, reject) => {
         
-        const newsFeed = distroData.rawDistribution.rss
+        const newsFeed = rssUrl
         const newsHost = new URL(newsFeed).origin + '/'
         $.ajax({
             url: newsFeed,
@@ -1011,13 +1071,14 @@ async function loadNews(){
                     )
                 }
                 resolve({
-                    articles
+                    articles: articles.length > 0 ? articles : LOCAL_NEWS
                 })
             },
             timeout: 2500
         }).catch(err => {
+            // RSS failed, fallback to local news
             resolve({
-                articles: null
+                articles: LOCAL_NEWS
             })
         })
     })
