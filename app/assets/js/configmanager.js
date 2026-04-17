@@ -39,19 +39,20 @@ exports.setDataDirectory = function(dataDirectory){
     config.settings.launcher.dataDirectory = dataDirectory
 }
 
-const configPath = path.join(exports.getLauncherDirectory(), 'config.json')
-const configPathLEGACY = path.join(dataPath, 'config.json')
-const configPathBackup = path.join(dataPath, 'config.json.bak')
+const configPath = path.join(dataPath, 'config.json')
+const configPathOldElectron = path.join(exports.getLauncherDirectory(), 'config.json')
+const configPathLEGACY = path.join(exports.getLauncherDirectory(), 'config.json')
 
-// If main config was deleted (e.g. by NSIS uninstaller during update),
-// restore from backup in the data directory which the installer never touches.
-if(!fs.existsSync(configPath) && !fs.existsSync(configPathLEGACY) && fs.existsSync(configPathBackup)){
-    logger.info('Main config lost, restoring from backup in data directory.')
-    fs.ensureDirSync(path.join(configPath, '..'))
-    fs.copySync(configPathBackup, configPath)
+// Migrate config from Electron's userData (deleted by NSIS on update) to dataPath (safe).
+if(!fs.existsSync(configPath)){
+    fs.ensureDirSync(dataPath)
+    if(fs.existsSync(configPathOldElectron)){
+        logger.info('Migrating config.json from Electron userData to safe data directory.')
+        fs.copySync(configPathOldElectron, configPath)
+    }
 }
 
-const firstLaunch = !fs.existsSync(configPath) && !fs.existsSync(configPathLEGACY)
+const firstLaunch = !fs.existsSync(configPath)
 
 exports.getAbsoluteMinRAM = function(ram){
     if(ram?.minimum != null) {
@@ -121,13 +122,6 @@ let config = null
  */
 exports.save = function(){
     fs.writeFileSync(configPath, JSON.stringify(config, null, 4), 'UTF-8')
-    // Backup config to data directory (survives NSIS uninstaller during updates)
-    try {
-        fs.ensureDirSync(dataPath)
-        fs.writeFileSync(configPathBackup, JSON.stringify(config, null, 4), 'UTF-8')
-    } catch (err) {
-        logger.warn('Failed to write config backup:', err.message)
-    }
 }
 
 /**
