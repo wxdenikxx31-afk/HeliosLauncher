@@ -191,6 +191,20 @@ function showUpdateUI(info){
     }
 }
 
+/**
+ * Open the Console & Dev Tools tab in settings from anywhere.
+ */
+async function openConsoleTab() {
+    if(getCurrentView() !== VIEWS.settings) {
+        await prepareSettings()
+        switchView(getCurrentView(), VIEWS.settings, 500, 500, () => {
+            settingsNavItemListener(document.getElementById('settingsNavConsole'), false)
+        })
+    } else {
+        settingsNavItemListener(document.getElementById('settingsNavConsole'))
+    }
+}
+
 /* jQuery Example
 $(function(){
     loggerUICore.info('UICore Initialized');
@@ -228,6 +242,23 @@ document.addEventListener('readystatechange', function () {
                 window.minimize()
                 document.activeElement.blur()
             })
+        })
+
+        // Bind console button in frame bar.
+        const consoleBtn = document.getElementById('frameButton_console')
+        if(consoleBtn) {
+            consoleBtn.addEventListener('click', async e => {
+                document.activeElement.blur()
+                await openConsoleTab()
+            })
+        }
+
+        // Global keyboard shortcut: Ctrl+Shift+C opens console tab.
+        document.addEventListener('keydown', async (e) => {
+            if(e.ctrlKey && e.shiftKey && e.code === 'KeyC') {
+                e.preventDefault()
+                await openConsoleTab()
+            }
         })
 
         // Remove focus from social media buttons once they're clicked.

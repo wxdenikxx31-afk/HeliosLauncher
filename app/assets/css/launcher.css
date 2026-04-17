@@ -162,6 +162,19 @@ body, button {
     background: rgba(235, 0, 0, 0.61) !important;
 }
 
+/* Console button is teal. */
+#frameButton_console:hover,
+#frameButton_console:focus {
+    background: rgba(0, 200, 180, 0.45) !important;
+}
+#frameButton_console:active {
+    background: rgba(0, 180, 160, 0.55) !important;
+}
+#frameButton_console svg {
+    width: 14px;
+    height: 14px;
+}
+
 /* Darwin Frame Button Styles. */
 .frameButtonDarwin {
     height: 12px;

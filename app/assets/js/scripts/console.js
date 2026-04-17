@@ -2,13 +2,13 @@
  * Console & Dev Tools module for settings tab.
  * Captures Minecraft game output and launcher logs.
  * Provides filtering, copy, export, and diagnostics.
+ * 
+ * NOTE: os, path, ipcRenderer, shell, remote are already declared
+ * in uicore.js / settings.js which share the same global scope.
  */
 
-const os = require('os')
-const path = require('path')
-const { ipcRenderer, shell, clipboard } = require('electron')
-const remote = require('@electron/remote')
-const fs = require('fs')
+const _consoleClipboard = require('electron').clipboard
+const _consoleFs = require('fs')
 
 // ============================
 // LOG STORE
@@ -184,7 +184,7 @@ function initConsoleTab() {
     // Copy all
     document.getElementById('consoleCopyBtn').addEventListener('click', () => {
         const text = getFilteredLogsText()
-        clipboard.writeText(text)
+        _consoleClipboard.writeText(text)
         showCopyFeedback(document.getElementById('consoleCopyBtn'), '✓ Скопировано!')
     })
 
@@ -205,7 +205,7 @@ function initConsoleTab() {
 
     document.getElementById('devOpenGameFolder').addEventListener('click', () => {
         const gameDir = path.join(ConfigManager.getDataDirectory(), 'instances')
-        if (fs.existsSync(gameDir)) {
+        if (_consoleFs.existsSync(gameDir)) {
             shell.openPath(gameDir)
         } else {
             shell.openPath(ConfigManager.getDataDirectory())
@@ -215,13 +215,13 @@ function initConsoleTab() {
     document.getElementById('devOpenLogsFolder').addEventListener('click', () => {
         const logsDir = path.join(ConfigManager.getDataDirectory(), 'instances')
         // Try to find logs folder in latest instance
-        if (fs.existsSync(logsDir)) {
-            const instances = fs.readdirSync(logsDir).filter(f => {
-                return fs.statSync(path.join(logsDir, f)).isDirectory()
+        if (_consoleFs.existsSync(logsDir)) {
+            const instances = _consoleFs.readdirSync(logsDir).filter(f => {
+                return _consoleFs.statSync(path.join(logsDir, f)).isDirectory()
             })
             for (const inst of instances) {
                 const logPath = path.join(logsDir, inst, 'logs')
-                if (fs.existsSync(logPath)) {
+                if (_consoleFs.existsSync(logPath)) {
                     shell.openPath(logPath)
                     return
                 }
@@ -232,7 +232,7 @@ function initConsoleTab() {
 
     document.getElementById('devCopyDiagnostics').addEventListener('click', () => {
         const diag = buildDiagnosticsText()
-        clipboard.writeText(diag)
+        _consoleClipboard.writeText(diag)
         showCopyFeedback(document.getElementById('devCopyDiagnostics'), '✓ Скопировано!')
     })
 
@@ -389,7 +389,7 @@ function exportLogs(format) {
             } else {
                 content = getFilteredLogsText()
             }
-            fs.writeFileSync(result.filePath, content, 'utf8')
+            _consoleFs.writeFileSync(result.filePath, content, 'utf8')
         }
     })
 }
