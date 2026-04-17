@@ -549,14 +549,6 @@ async function dlAsync(login = true) {
 
     fullRepairModule.destroyReceiver()
 
-    // If files were downloaded (first launch / update), disable autoconnect
-    // to let Forge fully initialize before connecting to the server.
-    // This prevents falling through blocks on first launch.
-    const firstLaunchNoAutoConnect = invalidFileCount > 0
-    if(firstLaunchNoAutoConnect) {
-        loggerLaunchSuite.info('Files were downloaded — disabling autoconnect for this launch to let mods initialize.')
-    }
-
     setLaunchDetails(Lang.queryJS('landing.dlAsync.preparingToLaunch'))
 
     const mojangIndexProcessor = new MojangIndexProcessor(
@@ -574,7 +566,7 @@ async function dlAsync(login = true) {
     if(login) {
         const authUser = ConfigManager.getSelectedAccount()
         loggerLaunchSuite.info(`Sending selected account (${authUser.displayName}) to ProcessBuilder.`)
-        let pb = new ProcessBuilder(serv, versionData, modLoaderData, authUser, remote.app.getVersion(), firstLaunchNoAutoConnect)
+        let pb = new ProcessBuilder(serv, versionData, modLoaderData, authUser, remote.app.getVersion())
         setLaunchDetails(Lang.queryJS('landing.dlAsync.launchingGame'))
 
         // const SERVER_JOINED_REGEX = /\[.+\]: \[CHAT\] [a-zA-Z0-9_]{1,16} joined the game/
