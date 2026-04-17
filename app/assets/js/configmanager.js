@@ -41,6 +41,16 @@ exports.setDataDirectory = function(dataDirectory){
 
 const configPath = path.join(exports.getLauncherDirectory(), 'config.json')
 const configPathLEGACY = path.join(dataPath, 'config.json')
+const configPathBackup = path.join(dataPath, 'config.json.bak')
+
+// If main config was deleted (e.g. by NSIS uninstaller during update),
+// restore from backup in the data directory which the installer never touches.
+if(!fs.existsSync(configPath) && !fs.existsSync(configPathLEGACY) && fs.existsSync(configPathBackup)){
+    logger.info('Main config lost, restoring from backup in data directory.')
+    fs.ensureDirSync(path.join(configPath, '..'))
+    fs.copySync(configPathBackup, configPath)
+}
+
 const firstLaunch = !fs.existsSync(configPath) && !fs.existsSync(configPathLEGACY)
 
 exports.getAbsoluteMinRAM = function(ram){
@@ -111,6 +121,13 @@ let config = null
  */
 exports.save = function(){
     fs.writeFileSync(configPath, JSON.stringify(config, null, 4), 'UTF-8')
+    // Backup config to data directory (survives NSIS uninstaller during updates)
+    try {
+        fs.ensureDirSync(dataPath)
+        fs.writeFileSync(configPathBackup, JSON.stringify(config, null, 4), 'UTF-8')
+    } catch (err) {
+        logger.warn('Failed to write config backup:', err.message)
+    }
 }
 
 /**
