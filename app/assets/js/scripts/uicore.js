@@ -37,6 +37,53 @@ webFrame.setVisualZoomLevelLimits(1, 1)
 
 // Initialize auto updates in production environments.
 let updateCheckListener
+let updateInfo = null
+
+function showUpdateOverlay(info) {
+    updateInfo = info
+    const container = document.getElementById('overlayContainer')
+    const updateContent = document.getElementById('updateContent')
+    const versionEl = document.getElementById('updateVersion')
+    const progressContainer = document.getElementById('updateProgressContainer')
+    const actionsEl = document.getElementById('updateActions')
+    const mainEl = document.getElementById('main')
+
+    versionEl.textContent = 'Версия ' + info.version
+    progressContainer.style.display = 'none'
+    actionsEl.style.display = 'flex'
+    document.getElementById('updateInstallBtn').disabled = false
+    document.getElementById('updateInstallBtn').textContent = 'Установить обновление'
+
+    // Hide other overlay content
+    document.getElementById('serverSelectContent').style.display = 'none'
+    document.getElementById('accountSelectContent').style.display = 'none'
+    document.getElementById('overlayContent').style.display = 'none'
+    updateContent.style.display = 'flex'
+
+    mainEl.setAttribute('overlay', '')
+    $(container).fadeIn(250)
+}
+
+function hideUpdateOverlay() {
+    const container = document.getElementById('overlayContainer')
+    const mainEl = document.getElementById('main')
+    document.getElementById('updateContent').style.display = 'none'
+    mainEl.removeAttribute('overlay')
+    $(container).fadeOut(250)
+}
+
+function startUpdateDownload() {
+    const progressContainer = document.getElementById('updateProgressContainer')
+    const installBtn = document.getElementById('updateInstallBtn')
+    
+    installBtn.disabled = true
+    installBtn.textContent = 'Загрузка... 0%'
+    progressContainer.style.display = 'block'
+    document.getElementById('updateLaterWrapper').style.display = 'none'
+    
+    ipcRenderer.send('autoUpdateAction', 'downloadUpdate')
+}
+
 if(!isDev){
     ipcRenderer.on('autoUpdateNotification', (event, arg, info) => {
         switch(arg){
@@ -53,6 +100,15 @@ if(!isDev){
                 }
                 
                 populateSettingsUpdateInformation(info)
+                showUpdateOverlay(info)
+                break
+            case 'download-progress':
+                if(info) {
+                    const percent = Math.round(info.percent || 0)
+                    document.getElementById('updateProgressFill').style.width = percent + '%'
+                    document.getElementById('updateProgressText').textContent = 'Загрузка обновления... ' + percent + '%'
+                    document.getElementById('updateInstallBtn').textContent = 'Загрузка... ' + percent + '%'
+                }
                 break
             case 'update-downloaded':
                 loggerAutoUpdater.info('Update ' + info.version + ' ready to be installed.')
@@ -62,6 +118,14 @@ if(!isDev){
                     }
                 })
                 showUpdateUI(info)
+                // Update overlay to show ready state
+                document.getElementById('updateProgressFill').style.width = '100%'
+                document.getElementById('updateProgressText').textContent = 'Обновление загружено! Перезапуск...'
+                document.getElementById('updateInstallBtn').textContent = 'Установить и перезапустить'
+                document.getElementById('updateInstallBtn').disabled = false
+                document.getElementById('updateInstallBtn').onclick = () => {
+                    ipcRenderer.send('autoUpdateAction', 'installUpdateNow')
+                }
                 break
             case 'update-not-available':
                 loggerAutoUpdater.info('No new update found.')

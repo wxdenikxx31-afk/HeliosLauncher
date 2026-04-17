@@ -4150,3 +4150,279 @@ input:checked + .toggleSwitchSlider:before {
 .rotating {
     animation: rotating 10s linear infinite;
 }
+
+/* =====================================================
+   UPDATE OVERLAY STYLES
+   ===================================================== */
+
+#updateContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+}
+
+#updateInnerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 50px 60px;
+    max-width: 520px;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+#updateIcon {
+    font-size: 52px;
+    margin-bottom: 16px;
+}
+
+#updateTitle {
+    font-family: 'Avenir Medium';
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+#updateVersion {
+    font-family: 'Avenir Book';
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 16px;
+}
+
+#updateDesc {
+    font-family: 'Avenir Book';
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+#updateActions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#updateInstallBtn {
+    background: rgb(59, 130, 59);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-family: 'Avenir Medium';
+    font-size: 16px;
+    padding: 10px 40px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    width: 100%;
+}
+
+#updateInstallBtn:hover {
+    background: rgb(75, 155, 75);
+}
+
+#updateInstallBtn:active {
+    background: rgb(45, 110, 45);
+}
+
+#updateInstallBtn:disabled {
+    background: rgb(80, 80, 80);
+    cursor: not-allowed;
+}
+
+#updateLaterWrapper {
+    margin-top: 2px;
+}
+
+#updateLaterBtn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Avenir Book';
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px 12px;
+    transition: color 0.2s ease;
+}
+
+#updateLaterBtn:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#updateProgressContainer {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+#updateProgressBar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+#updateProgressFill {
+    width: 0%;
+    height: 100%;
+    background: rgb(59, 130, 59);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+#updateProgressText {
+    font-family: 'Avenir Book';
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* =====================================================
+   UPDATE OVERLAY STYLES
+   ===================================================== */
+
+#updateContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+}
+
+#updateInnerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 50px 60px;
+    max-width: 520px;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+#updateIcon {
+    font-size: 52px;
+    margin-bottom: 16px;
+}
+
+#updateTitle {
+    font-family: 'Avenir Medium';
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+#updateVersion {
+    font-family: 'Avenir Book';
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 16px;
+}
+
+#updateDesc {
+    font-family: 'Avenir Book';
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+#updateActions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#updateInstallBtn {
+    background: rgb(59, 130, 59);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-family: 'Avenir Medium';
+    font-size: 16px;
+    padding: 10px 40px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    width: 100%;
+}
+
+#updateInstallBtn:hover {
+    background: rgb(75, 155, 75);
+}
+
+#updateInstallBtn:active {
+    background: rgb(45, 110, 45);
+}
+
+#updateInstallBtn:disabled {
+    background: rgb(80, 80, 80);
+    cursor: not-allowed;
+}
+
+#updateLaterWrapper {
+    margin-top: 2px;
+}
+
+#updateLaterBtn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Avenir Book';
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px 12px;
+    transition: color 0.2s ease;
+}
+
+#updateLaterBtn:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#updateProgressContainer {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+#updateProgressBar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+#updateProgressFill {
+    width: 0%;
+    height: 100%;
+    background: rgb(59, 130, 59);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+#updateProgressText {
+    font-family: 'Avenir Book';
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+}

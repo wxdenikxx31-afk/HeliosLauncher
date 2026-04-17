@@ -1,4 +1,24 @@
 <div id="overlayContainer" style="display: none;">
+    <div id="updateContent" style="display: none;">
+        <div id="updateInnerContent">
+            <div id="updateIcon">&#x1F680;</div>
+            <span id="updateTitle">Доступно обновление лаунчера!</span>
+            <span id="updateVersion"></span>
+            <span id="updateDesc">Новая версия лаунчера готова к установке.<br>Рекомендуем обновиться для лучшей работы.</span>
+            <div id="updateProgressContainer" style="display: none;">
+                <div id="updateProgressBar">
+                    <div id="updateProgressFill"></div>
+                </div>
+                <span id="updateProgressText">Загрузка обновления... 0%</span>
+            </div>
+            <div id="updateActions">
+                <button id="updateInstallBtn" class="overlayKeybindEnter" type="button">Установить обновление</button>
+                <div id="updateLaterWrapper">
+                    <button id="updateLaterBtn" class="overlayKeybindEsc" type="button">Позже</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="serverSelectContent" style="display: none;">
         <span id="serverSelectHeader">Выбор сборки</span>
         <div id="serverSelectColumns">

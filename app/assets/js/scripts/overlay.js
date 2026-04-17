@@ -218,6 +218,16 @@ document.getElementById('accountSelectConfirm').addEventListener('click', async 
     }
 })
 
+/* Update Overlay Button Handlers */
+
+document.getElementById('updateInstallBtn').addEventListener('click', () => {
+    startUpdateDownload()
+})
+
+document.getElementById('updateLaterBtn').addEventListener('click', () => {
+    hideUpdateOverlay()
+})
+
 // Bind server select cancel button.
 document.getElementById('serverSelectCancel').addEventListener('click', () => {
     toggleOverlay(false)

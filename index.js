@@ -33,8 +33,12 @@ function initAutoUpdater(event, data) {
     if(process.platform === 'darwin'){
         autoUpdater.autoDownload = false
     }
+    autoUpdater.autoDownload = false
     autoUpdater.on('update-available', (info) => {
         event.sender.send('autoUpdateNotification', 'update-available', info)
+    })
+    autoUpdater.on('download-progress', (progressObj) => {
+        event.sender.send('autoUpdateNotification', 'download-progress', progressObj)
     })
     autoUpdater.on('update-downloaded', (info) => {
         event.sender.send('autoUpdateNotification', 'update-downloaded', info)
@@ -78,6 +82,12 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             break
         case 'installUpdateNow':
             autoUpdater.quitAndInstall()
+            break
+        case 'downloadUpdate':
+            autoUpdater.downloadUpdate()
+                .catch(err => {
+                    event.sender.send('autoUpdateNotification', 'realerror', err)
+                })
             break
         default:
             console.log('Unknown argument', arg)
