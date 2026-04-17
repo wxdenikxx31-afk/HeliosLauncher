@@ -21,10 +21,10 @@ win:
 
 # Windows Installer Configuration
 nsis:
-  oneClick: false
+  oneClick: true
   perMachine: false
   allowElevation: true
-  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: false
 
 # macOS Configuration
 mac:
