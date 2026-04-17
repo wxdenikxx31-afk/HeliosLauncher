@@ -4261,34 +4261,6 @@ input:checked + .toggleSwitchSlider:before {
     color: rgba(255, 255, 255, 0.8);
 }
 
-#updateProgressContainer {
-    width: 100%;
-    margin-bottom: 24px;
-}
-
-#updateProgressBar {
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    overflow: hidden;
-    margin-bottom: 8px;
-}
-
-#updateProgressFill {
-    width: 0%;
-    height: 100%;
-    background: rgb(59, 130, 59);
-    border-radius: 3px;
-    transition: width 0.3s ease;
-}
-
-#updateProgressText {
-    font-family: 'Avenir Book';
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
 /* =====================================================
    UPDATE OVERLAY STYLES
    ===================================================== */
@@ -4425,4 +4397,309 @@ input:checked + .toggleSwitchSlider:before {
     font-family: 'Avenir Book';
     font-size: 15px;
     color: rgba(255, 255, 255, 0.6);
+}
+
+/* =====================================================
+   CONSOLE & DEV TOOLS TAB
+   ===================================================== */
+
+#consoleTabBar {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 8px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    padding: 3px;
+}
+
+.consoleTabBtn {
+    flex: 1;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Avenir Medium';
+    font-size: 13px;
+    padding: 7px 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s ease;
+}
+
+.consoleTabBtn:hover {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.consoleTabActive {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+#consoleFilterBar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+#consoleFilterInput {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    color: #fff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+    padding: 6px 10px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#consoleFilterInput:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+#consoleFilterInput::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+#consoleFilterLevels {
+    display: flex;
+    gap: 3px;
+}
+
+.consoleLevelBtn {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.consoleLevelActive {
+    color: #fff;
+}
+
+.consoleLevelBtn[data-level="info"].consoleLevelActive {
+    background: rgba(100, 180, 255, 0.2);
+    border-color: rgba(100, 180, 255, 0.4);
+    color: rgb(100, 180, 255);
+}
+
+.consoleLevelBtn[data-level="warn"].consoleLevelActive {
+    background: rgba(255, 200, 50, 0.2);
+    border-color: rgba(255, 200, 50, 0.4);
+    color: rgb(255, 200, 50);
+}
+
+.consoleLevelBtn[data-level="error"].consoleLevelActive {
+    background: rgba(255, 80, 80, 0.2);
+    border-color: rgba(255, 80, 80, 0.4);
+    color: rgb(255, 80, 80);
+}
+
+.consoleLevelBtn[data-level="debug"].consoleLevelActive {
+    background: rgba(180, 180, 180, 0.2);
+    border-color: rgba(180, 180, 180, 0.4);
+    color: rgb(180, 180, 180);
+}
+
+#consoleClearBtn {
+    background: rgba(255, 60, 60, 0.15);
+    border: 1px solid rgba(255, 60, 60, 0.25);
+    border-radius: 3px;
+    color: rgba(255, 100, 100, 0.8);
+    font-family: 'Avenir Book';
+    font-size: 12px;
+    padding: 5px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+}
+
+#consoleClearBtn:hover {
+    background: rgba(255, 60, 60, 0.25);
+    color: rgb(255, 100, 100);
+}
+
+#consoleLogContainer {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    height: 320px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+#consoleLogContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#consoleLogContainer::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#consoleLogContainer::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+#consoleLogContainer::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+#consoleLogContent {
+    padding: 8px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+#consoleLogEmpty {
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    padding: 40px;
+    font-family: 'Avenir Book';
+    font-size: 14px;
+}
+
+.logLine {
+    padding: 1px 6px;
+    border-radius: 2px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.logLine:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.logLineTime {
+    color: rgba(255, 255, 255, 0.3);
+    margin-right: 6px;
+    font-size: 11px;
+}
+
+.logLineSource {
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+.logLineSource.game {
+    color: rgb(80, 200, 80);
+}
+
+.logLineSource.launcher {
+    color: rgb(100, 160, 255);
+}
+
+.logLine.level-warn {
+    color: rgb(255, 210, 80);
+}
+
+.logLine.level-error {
+    color: rgb(255, 100, 100);
+    background: rgba(255, 50, 50, 0.06);
+}
+
+.logLine.level-debug {
+    color: rgba(180, 180, 180, 0.7);
+}
+
+#consoleActionsBar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.consoleActionBtn {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Avenir Book';
+    font-size: 12px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.consoleActionBtn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.consoleActionBtn:active {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+#consoleAutoScrollLabel {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Avenir Book';
+    font-size: 12px;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+#consoleAutoScrollLabel input {
+    cursor: pointer;
+}
+
+#consoleLogCount {
+    color: rgba(255, 255, 255, 0.3);
+    font-family: 'Avenir Book';
+    font-size: 12px;
+}
+
+#devToolsContainer {
+    margin-top: 8px;
+}
+
+#devToolsInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.devToolsCard {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 12px;
+}
+
+.devToolsCardTitle {
+    font-family: 'Avenir Medium';
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 6px;
+    display: block;
+}
+
+.devToolsCardBody {
+    font-family: 'Consolas', monospace;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+#devToolsActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }

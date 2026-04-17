@@ -308,6 +308,12 @@ function settingsNavItemListener(ele, fade = true){
             })
         })
     }
+
+    // Refresh console/dev tools when switching to that tab
+    if(selectedSettingsTab === 'settingsTabConsole') {
+        if(typeof renderLogs === 'function') renderLogs()
+        if(typeof updateDevToolsInfo === 'function') updateDevToolsInfo()
+    }
 }
 
 const settingsNavDone = document.getElementById('settingsNavDone')
@@ -1570,6 +1576,7 @@ async function prepareSettings(first = false) {
         setupSettingsTabs()
         initSettingsValidators()
         prepareUpdateTab()
+        initConsoleTab()
     } else {
         await prepareModsTab()
     }

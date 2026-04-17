@@ -635,6 +635,16 @@ async function dlAsync(login = true) {
                     DiscordWrapper.shutdownRPC()
                     hasRPC = false
                     proc = null
+                    if(typeof window !== 'undefined' && window.logStore) {
+                        window.logStore.add('game', code === 0 ? 'info' : 'error', `Игра завершена с кодом ${code}`)
+                    }
+                })
+            } else {
+                proc.on('close', (code, signal) => {
+                    proc = null
+                    if(typeof window !== 'undefined' && window.logStore) {
+                        window.logStore.add('game', code === 0 ? 'info' : 'error', `Игра завершена с кодом ${code}`)
+                    }
                 })
             }
 

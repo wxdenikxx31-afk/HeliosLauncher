@@ -11,6 +11,7 @@
                     <button class="settingsNavItem" rSc="settingsTabMods"><%- lang('settings.navMods') %></button>
                     <button class="settingsNavItem" rSc="settingsTabJava"><%- lang('settings.navJava') %></button>
                     <button class="settingsNavItem" rSc="settingsTabLauncher"><%- lang('settings.navLauncher') %></button>
+                    <button class="settingsNavItem" rSc="settingsTabConsole" id="settingsNavConsole">Консоль</button>
                     <div class="settingsNavSpacer"></div>
                     <button class="settingsNavItem" rSc="settingsTabAbout"><%- lang('settings.navAbout') %></button>
                     <button class="settingsNavItem" rSc="settingsTabUpdate" id="settingsNavUpdate"><%- lang('settings.navUpdates') %></button>
@@ -351,6 +352,83 @@
                 </div>
             </div>
         </div>
+        <div id="settingsTabConsole" class="settingsTab" style="display: none;">
+            <div class="settingsTabHeader">
+                <span class="settingsTabHeaderText">Консоль & Инструменты разработчика</span>
+                <span class="settingsTabHeaderDesc">Журнал логов Minecraft, логи лаунчера и диагностика</span>
+            </div>
+
+            <!-- Log Source Tabs -->
+            <div id="consoleTabBar">
+                <button class="consoleTabBtn consoleTabActive" data-log-source="game">Minecraft</button>
+                <button class="consoleTabBtn" data-log-source="launcher">Лаунчер</button>
+                <button class="consoleTabBtn" data-log-source="all">Всё</button>
+            </div>
+
+            <!-- Filter Bar -->
+            <div id="consoleFilterBar">
+                <input type="text" id="consoleFilterInput" placeholder="Фильтр логов (текст или /regex/)..." spellcheck="false">
+                <div id="consoleFilterLevels">
+                    <button class="consoleLevelBtn consoleLevelActive" data-level="info" title="Info">INFO</button>
+                    <button class="consoleLevelBtn consoleLevelActive" data-level="warn" title="Warnings">WARN</button>
+                    <button class="consoleLevelBtn consoleLevelActive" data-level="error" title="Errors">ERROR</button>
+                    <button class="consoleLevelBtn consoleLevelActive" data-level="debug" title="Debug">DEBUG</button>
+                </div>
+                <button id="consoleClearBtn" title="Очистить логи">✕ Очистить</button>
+            </div>
+
+            <!-- Log Output -->
+            <div id="consoleLogContainer">
+                <div id="consoleLogContent">
+                    <div id="consoleLogEmpty">Логи появятся после запуска игры или при работе лаунчера...</div>
+                </div>
+            </div>
+
+            <!-- Actions Bar -->
+            <div id="consoleActionsBar">
+                <button id="consoleCopyBtn" class="consoleActionBtn">📋 Копировать всё</button>
+                <button id="consoleExportTxtBtn" class="consoleActionBtn">📄 Экспорт .txt</button>
+                <button id="consoleExportMdBtn" class="consoleActionBtn">📝 Экспорт .md</button>
+                <label id="consoleAutoScrollLabel">
+                    <input type="checkbox" id="consoleAutoScroll" checked> Автопрокрутка
+                </label>
+                <span id="consoleLogCount">0 записей</span>
+            </div>
+
+            <!-- Dev Tools Section -->
+            <div class="settingsTabHeader" style="margin-top: 16px;">
+                <span class="settingsTabHeaderText">Диагностика</span>
+                <span class="settingsTabHeaderDesc">Информация о системе, процессах и состоянии лаунчера</span>
+            </div>
+
+            <div id="devToolsContainer">
+                <div id="devToolsInfo">
+                    <div class="devToolsCard">
+                        <span class="devToolsCardTitle">Система</span>
+                        <div id="devInfoSystem" class="devToolsCardBody">Загрузка...</div>
+                    </div>
+                    <div class="devToolsCard">
+                        <span class="devToolsCardTitle">Java</span>
+                        <div id="devInfoJava" class="devToolsCardBody">Загрузка...</div>
+                    </div>
+                    <div class="devToolsCard">
+                        <span class="devToolsCardTitle">Игровой процесс</span>
+                        <div id="devInfoProcess" class="devToolsCardBody">Игра не запущена</div>
+                    </div>
+                    <div class="devToolsCard">
+                        <span class="devToolsCardTitle">Память</span>
+                        <div id="devInfoMemory" class="devToolsCardBody">Загрузка...</div>
+                    </div>
+                </div>
+                <div id="devToolsActions">
+                    <button id="devOpenDataFolder" class="consoleActionBtn">📁 Папка данных лаунчера</button>
+                    <button id="devOpenGameFolder" class="consoleActionBtn">📁 Папка .minecraft</button>
+                    <button id="devOpenLogsFolder" class="consoleActionBtn">📁 Папка логов игры</button>
+                    <button id="devCopyDiagnostics" class="consoleActionBtn">📋 Копировать диагностику</button>
+                    <button id="devToggleDevTools" class="consoleActionBtn">🔧 DevTools (F12)</button>
+                </div>
+            </div>
+        </div>
         <div id="settingsTabUpdate" class="settingsTab" style="display: none;">
             <div class="settingsTabHeader">
                 <span class="settingsTabHeaderText"><%- lang('settings.launcherUpdatesHeaderText') %></span>
@@ -389,5 +467,6 @@
             </div>
         </div>
     </div>
+    <script src="./assets/js/scripts/console.js"></script>
     <script src="./assets/js/scripts/settings.js"></script>
 </div>

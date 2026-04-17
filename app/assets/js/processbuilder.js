@@ -91,10 +91,15 @@ class ProcessBuilder {
 
         child.stdout.on('data', (data) => {
             data.trim().split('\n').forEach(x => console.log(`\x1b[32m[Minecraft]\x1b[0m ${x}`))
-            
+            if(typeof window !== 'undefined' && window.captureGameStdout) {
+                window.captureGameStdout(data)
+            }
         })
         child.stderr.on('data', (data) => {
             data.trim().split('\n').forEach(x => console.log(`\x1b[31m[Minecraft]\x1b[0m ${x}`))
+            if(typeof window !== 'undefined' && window.captureGameStderr) {
+                window.captureGameStderr(data)
+            }
         })
         child.on('close', (code) => {
             logger.info('Exited with code', code)
