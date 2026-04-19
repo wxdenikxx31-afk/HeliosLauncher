@@ -1,13 +1,13 @@
 {
-  "name": "helioslauncher",
-  "version": "2.3.7",
-  "productName": "Helios Launcher",
-  "description": "Modded Minecraft Launcher",
-  "author": "Daniel Scalzi (https://github.com/dscalzi/)",
+  "name": "unicraftlauncher",
+  "version": "2.4.0",
+  "productName": "UniCraft Launcher",
+  "description": "UniCraft Modded Minecraft Launcher",
+  "author": "wxdenikxx31-afk",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/dscalzi/HeliosLauncher",
+  "homepage": "https://github.com/wxdenikxx31-afk/HeliosLauncher",
   "bugs": {
-    "url": "https://github.com/dscalzi/HeliosLauncher/issues"
+    "url": "https://github.com/wxdenikxx31-afk/HeliosLauncher/issues"
   },
   "private": true,
   "main": "index.js",
@@ -47,6 +47,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dscalzi/HeliosLauncher.git"
+    "url": "git+https://github.com/wxdenikxx31-afk/HeliosLauncher.git"
   }
 }

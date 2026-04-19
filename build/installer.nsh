@@ -1,4 +1,4 @@
-; Custom NSIS script for Helios Launcher
+; Custom NSIS script for UniCraft Launcher
 ; Prevents deletion of user data (Java, mods, instances) during updates
 ; electron-builder calls customRemoveFiles instead of "RMDir /r $INSTDIR"
 

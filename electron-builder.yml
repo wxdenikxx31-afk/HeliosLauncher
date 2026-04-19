@@ -1,8 +1,8 @@
-appId: 'helioslauncher'
-productName: 'Helios Launcher'
+appId: 'unicraftlauncher'
+productName: 'UniCraft Launcher'
 artifactName: '${productName}-setup-${version}.${ext}'
 
-copyright: 'Copyright © 2018-2026 Daniel Scalzi'
+copyright: 'Copyright © 2026 UniCraft'
 
 asar: true
 compression: 'maximum'
@@ -41,8 +41,8 @@ linux:
   target: 'AppImage'
   maintainer: 'Daniel Scalzi'
   vendor: 'Daniel Scalzi'
-  synopsis: 'Modded Minecraft Launcher'
-  description: 'Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.'
+  synopsis: 'UniCraft Modded Minecraft Launcher'
+  description: 'UniCraft Launcher - custom launcher for modded Minecraft servers. All mods, configurations, and updates are handled automatically.'
   category: 'Game'
 
 

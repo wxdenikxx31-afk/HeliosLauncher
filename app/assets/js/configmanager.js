@@ -7,7 +7,8 @@ const logger = LoggerUtil.getLogger('ConfigManager')
 
 const sysRoot = process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Application Support' : process.env.HOME)
 
-const dataPath = path.join(sysRoot, '.helioslauncher')
+const dataPath = path.join(sysRoot, '.unicraftlauncher')
+const dataPathOld = path.join(sysRoot, '.helioslauncher')
 
 const launcherDir = require('@electron/remote').app.getPath('userData')
 
@@ -41,14 +42,40 @@ exports.setDataDirectory = function(dataDirectory){
 
 const configPath = path.join(dataPath, 'config.json')
 const configPathOldElectron = path.join(exports.getLauncherDirectory(), 'config.json')
-const configPathLEGACY = path.join(exports.getLauncherDirectory(), 'config.json')
+const configPathOldHelioslauncher = path.join(dataPathOld, 'config.json')
+
+// Migrate from old .helioslauncher directory to new .unicraftlauncher
+if(!fs.existsSync(dataPath) && fs.existsSync(dataPathOld)){
+    logger.info('Migrating data from .helioslauncher to .unicraftlauncher')
+    fs.copySync(dataPathOld, dataPath)
+}
 
 // Migrate config from Electron's userData (deleted by NSIS on update) to dataPath (safe).
 if(!fs.existsSync(configPath)){
     fs.ensureDirSync(dataPath)
-    if(fs.existsSync(configPathOldElectron)){
+    if(fs.existsSync(configPathOldHelioslauncher)){
+        logger.info('Migrating config.json from old .helioslauncher directory.')
+        fs.copySync(configPathOldHelioslauncher, configPath)
+    } else if(fs.existsSync(configPathOldElectron)){
         logger.info('Migrating config.json from Electron userData to safe data directory.')
         fs.copySync(configPathOldElectron, configPath)
+    }
+}
+
+// Update dataDirectory in config if it still points to old .helioslauncher path
+if(fs.existsSync(configPath)){
+    try {
+        const tmpCfg = JSON.parse(fs.readFileSync(configPath, 'UTF-8'))
+        if(tmpCfg.settings && tmpCfg.settings.launcher && tmpCfg.settings.launcher.dataDirectory){
+            const oldDir = tmpCfg.settings.launcher.dataDirectory
+            if(oldDir.includes('.helioslauncher')){
+                tmpCfg.settings.launcher.dataDirectory = oldDir.replace('.helioslauncher', '.unicraftlauncher')
+                fs.writeFileSync(configPath, JSON.stringify(tmpCfg, null, 4), 'UTF-8')
+                logger.info('Updated dataDirectory path from .helioslauncher to .unicraftlauncher')
+            }
+        }
+    } catch(e) {
+        logger.warn('Failed to update dataDirectory in config:', e.message)
     }
 }
 
