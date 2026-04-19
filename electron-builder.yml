@@ -1,6 +1,6 @@
 appId: 'unicraftlauncher'
 productName: 'UniCraft Launcher'
-artifactName: '${productName}-setup-${version}.${ext}'
+artifactName: 'UniCraft-Launcher-setup-${version}.${ext}'
 
 copyright: 'Copyright © 2026 UniCraft'
 
@@ -34,7 +34,7 @@ mac:
       arch:
         - 'x64'
         - 'arm64'
-  artifactName: '${productName}-setup-${version}-${arch}.${ext}'
+  artifactName: 'UniCraft-Launcher-setup-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
 # Linux Configuration
