@@ -25,6 +25,7 @@ nsis:
   perMachine: false
   allowElevation: true
   deleteAppDataOnUninstall: false
+  guid: 'helioslauncher'
 
 # macOS Configuration
 mac:
