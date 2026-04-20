@@ -43,14 +43,21 @@ function onDistroLoad(data){
 }
 
 // Ensure Distribution is downloaded and cached.
-DistroAPI.getDistribution()
+// Wrap in a timeout to prevent infinite loading if network hangs.
+const DISTRO_TIMEOUT = 30000
+const distroPromise = DistroAPI.getDistribution()
+const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error('Distribution load timed out after ' + DISTRO_TIMEOUT + 'ms')), DISTRO_TIMEOUT)
+})
+
+Promise.race([distroPromise, timeoutPromise])
     .then(heliosDistro => {
         logger.info('Loaded distribution index.')
 
         onDistroLoad(heliosDistro)
     })
     .catch(err => {
-        logger.info('Failed to load an older version of the distribution index.')
+        logger.info('Failed to load distribution index.')
         logger.info('Application cannot run.')
         logger.error(err)
 

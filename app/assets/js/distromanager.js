@@ -21,15 +21,28 @@ function stripBOM(str) {
     return str.charCodeAt(0) === 0xFEFF ? str.slice(1) : str
 }
 
-// Monkey-patch pullRemote to handle BOM in JSON response
+// Monkey-patch pullRemote to handle BOM in JSON response + add timeout
 const origPullRemote = api.pullRemote.bind(api)
 api.pullRemote = async function() {
     try {
-        const res = await got.get(exports.REMOTE_DISTRO_URL, { responseType: 'text' })
+        const res = await got.get(exports.REMOTE_DISTRO_URL, {
+            responseType: 'text',
+            timeout: {
+                request: 15000
+            },
+            retry: {
+                limit: 1
+            }
+        })
         const data = JSON.parse(stripBOM(res.body))
         return { data, responseStatus: 0 }
     } catch(e) {
-        return origPullRemote()
+        // If our custom request failed, try original helios-core method
+        try {
+            return await origPullRemote()
+        } catch(e2) {
+            return { data: null, responseStatus: 1 }
+        }
     }
 }
 
